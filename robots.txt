@@ -1,3 +1,19 @@
 User-agent: *
 Allow: /
-Sitemap: https://medibook.example.com/sitemap.xml 
+
+# Sitemap
+Sitemap: https://appadaycreator.github.io/medibook/sitemap.xml
+
+# 管理者エリアのクロール制限
+Disallow: /admin/
+Disallow: /api/
+Disallow: /private/
+
+# 一時ファイルのクロール制限
+Disallow: /temp/
+Disallow: /*.tmp$
+Disallow: /cache/
+
+# プライバシー保護
+Disallow: /patient/data/
+Disallow: /logs/
