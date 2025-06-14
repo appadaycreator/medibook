@@ -18,7 +18,7 @@
     <meta name="twitter:image" content="https://cdn1.genspark.ai/user-upload-image/22_generated/1f2de782-151e-4db9-abe0-42b8381daca9">
     
     <!-- PWA Manifest -->
-    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiTWVkaUJvb2sgLSDljLvnmYLmqZ/plqHlkJHjgZFFuebiuOSojOeuoeODreOBtOOCueOCv+ODoSIsInNob3J0X25hbWUiOiJNZWRpQm9vayIsInN0YXJ0X3VybCI6Ii4vIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiI2ZmZmZmZiIsInRoZW1lX2NvbG9yIjoiIzMzNzNkYyIsImljb25zIjpbeyJzcmMiOiJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lJSGRwWkhSb1BTSXlOREFpSUdobGFXZG9kRDBpTkRRd0lqNE5DZ2tOQ2lBZ1BHUmxabk0rRFFvZ0lDQWdQR3hwYm1WaGNrZHlZV1JwWlc1MElHbGtQU0puY21Ga2FXVnVkQ0krRFFvZ0lDQWdJQ0E4YzNSdmNDQnZabVp6WlhRNklqQWxJaUJ6ZEc5d0xXTnZiRzl5UFNJak16TTNNMlJqSWo0TkNpQWdJQ0FnSUNBZ1BITjBiM0FnYjJabWMyVjBQU0l4TURBbElpQnpkRzl3TFdOdmJHOXlQU0lqWkdKbU9EaG1JajROQ2lBZ0lDQWdJRHd2YkdsdVpXRnlSM0poWkdsbGJuUStEUW9nSUNBZ1BHTnBjbU5zWlNCamVEMGlNakF3SWlCamVUMGlNakF3SWlCeVBTSTVNQ0lnWm1sc2JEMGlkWEpzS0NkbmNtRmthV1Z1ZENraUx3NE5DaUFnUEM5a1pXWnpQZzBLSURnOWJHbHVhekJ5TFdMVGxGRUE2a1ZoQWJoZU83Y3BSb3VTUGFKWUhBNE4=IiwKcBb0hCUzg9Im5pbmcvZVJMc0ljcyIsInB1cnBvc2UiOiJtYXNrYWJsZSJ9XX0=">
+    <link rel="manifest" href="manifest.json">
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzczZGMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNOSAxMWgtM2EyIDIgMCAwIDAtMiAydjNhMiAyIDAgMCAwIDIgMmgzdjNhMiAyIDAgMCAwIDIgMmgzYTIgMiAwIDAgMCAyLTJ2LTNhMiAyIDAgMCAwLTItMmgtM3YtM2EyIDIgMCAwIDAtMi0ySDlhMiAyIDAgMCAwLTIgMnYzeiIvPjwvc3ZnPg==">
@@ -44,6 +44,11 @@
             --medical-green: #10b981;
             --medical-red: #ef4444;
             --medical-gray: #6b7280;
+            --base-font-size: 16px;
+        }
+
+        html {
+            font-size: var(--base-font-size);
         }
         
         .medical-gradient {
@@ -112,6 +117,10 @@
                     <a href="#status" class="hover:text-blue-200 transition-colors">状況確認</a>
                     <a href="#admin" class="hover:text-blue-200 transition-colors">管理者</a>
                 </div>
+                <div class="hidden md:flex space-x-2 items-center">
+                    <button onclick="decreaseFontSize()" class="px-2 py-1 bg-blue-500 rounded">A-</button>
+                    <button onclick="increaseFontSize()" class="px-2 py-1 bg-blue-500 rounded">A+</button>
+                </div>
                 <button id="mobileMenuBtn" class="md:hidden">
                     <i class="fas fa-bars text-xl"></i>
                 </button>
@@ -130,6 +139,10 @@
                 <a href="#booking" class="block text-gray-800 hover:text-blue-600">予約</a>
                 <a href="#status" class="block text-gray-800 hover:text-blue-600">状況確認</a>
                 <a href="#admin" class="block text-gray-800 hover:text-blue-600">管理者</a>
+                <div class="flex space-x-2 mt-4">
+                    <button onclick="decreaseFontSize()" class="px-2 py-1 bg-blue-500 text-white rounded">A-</button>
+                    <button onclick="increaseFontSize()" class="px-2 py-1 bg-blue-500 text-white rounded">A+</button>
+                </div>
             </div>
         </div>
     </div>
@@ -641,6 +654,23 @@
         let appointments = JSON.parse(localStorage.getItem('medibook_appointments') || '[]');
         let currentAppointment = null;
         let isAdminLoggedIn = false;
+        let baseFontSize = parseInt(getComputedStyle(document.documentElement).fontSize);
+
+        function setBaseFontSize(size) {
+            document.documentElement.style.setProperty('--base-font-size', size + 'px');
+            baseFontSize = size;
+            localStorage.setItem('medibook_fontsize', size);
+        }
+
+        function increaseFontSize() {
+            setBaseFontSize(baseFontSize + 2);
+        }
+
+        function decreaseFontSize() {
+            if (baseFontSize > 10) {
+                setBaseFontSize(baseFontSize - 2);
+            }
+        }
 
         // Utility Functions
         function generateId() {
@@ -1036,6 +1066,10 @@
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
+            const savedSize = parseInt(localStorage.getItem('medibook_fontsize'));
+            if (savedSize) {
+                setBaseFontSize(savedSize);
+            }
             updateTime();
             updateStats();
             setInterval(updateTime, 60000); // Update time every minute
