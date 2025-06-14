@@ -572,6 +572,7 @@
     <script>
         // Data Storage
         let appointments = JSON.parse(localStorage.getItem('medibook_appointments') || '[]');
+        let slotCapacities = JSON.parse(localStorage.getItem('medibook_slot_capacities') || '{}');
         let currentAppointment = null;
         let isAdminLoggedIn = false;
         let baseFontSize = parseInt(getComputedStyle(document.documentElement).fontSize);
@@ -606,6 +607,10 @@
             localStorage.setItem('medibook_appointments', JSON.stringify(appointments));
         }
 
+        function saveSlotCapacities() {
+            localStorage.setItem('medibook_slot_capacities', JSON.stringify(slotCapacities));
+        }
+
         function updateTime() {
             const now = new Date();
             document.getElementById('lastUpdate').textContent = now.toLocaleTimeString('ja-JP', {hour: '2-digit', minute: '2-digit'});
@@ -623,7 +628,9 @@
             
             document.getElementById('todayBookings').textContent = todayAppointments.length;
             document.getElementById('currentWaitTime').textContent = `約${calculateWaitTime()}分`;
-            document.getElementById('availableSlots').textContent = Math.max(0, 30 - todayAppointments.length);
+            const todayKey = new Date().toISOString().split('T')[0];
+            const todayCapacity = slotCapacities[todayKey] || 30;
+            document.getElementById('availableSlots').textContent = Math.max(0, todayCapacity - todayAppointments.length);
             
             if (isAdminLoggedIn) {
                 document.getElementById('adminTodayCount').textContent = todayAppointments.length;
@@ -688,14 +695,21 @@
             }
 
             // Check for conflicts
-            const conflictExists = appointments.some(apt => 
-                apt.date === formData.date && 
-                apt.time === formData.time && 
+            const conflictExists = appointments.some(apt =>
+                apt.date === formData.date &&
+                apt.time === formData.time &&
                 apt.status !== 'cancelled'
             );
 
             if (conflictExists) {
                 alert('選択された日時は既に予約済みです。別の時間をお選びください。');
+                return;
+            }
+
+            const capacity = slotCapacities[formData.date] || 30;
+            const dateAppointments = appointments.filter(apt => apt.date === formData.date && apt.status !== 'cancelled');
+            if (dateAppointments.length >= capacity) {
+                alert('選択された日の予約枠が上限に達しています。別の日付をお選びください。');
                 return;
             }
 
@@ -928,16 +942,32 @@
                 grid.appendChild(document.createElement('div'));
             }
 
-            for (let day = 1; day <= lastDay.getDate(); day++) {
-                const cell = document.createElement('div');
-                cell.className = 'border p-1 rounded';
+           for (let day = 1; day <= lastDay.getDate(); day++) {
+               const cell = document.createElement('div');
+                cell.className = 'border p-1 rounded cursor-pointer hover:bg-blue-50';
                 const dateStr = new Date(year, month, day).toISOString().split('T')[0];
                 const count = appointments.filter(apt => apt.date === dateStr && apt.status !== 'cancelled').length;
-                cell.innerHTML = `<div class="font-bold">${day}</div><div class="text-blue-600">${count}件</div>`;
+                const capacity = slotCapacities[dateStr] || 30;
+                cell.innerHTML = `<div class="font-bold">${day}</div><div class="text-blue-600">${count}/${capacity}</div>`;
+                cell.addEventListener('click', () => editSlotCapacity(dateStr));
                 grid.appendChild(cell);
-            }
+           }
 
-            calendar.appendChild(grid);
+           calendar.appendChild(grid);
+       }
+
+        function editSlotCapacity(dateStr) {
+            const current = slotCapacities[dateStr] || 30;
+            const input = prompt(`${dateStr} の予約枠数を入力してください`, current);
+            if (input === null) return;
+            const value = parseInt(input, 10);
+            if (!isNaN(value) && value > 0) {
+                slotCapacities[dateStr] = value;
+                saveSlotCapacities();
+                const [y, m] = dateStr.split('-').map(Number);
+                loadAdminCalendar(y, m - 1);
+                updateStats();
+            }
         }
 
         // Share Functions
@@ -1047,6 +1077,7 @@
                 const [y, m] = this.value.split('-').map(Number);
                 loadAdminCalendar(y, m - 1);
             });
+            loadAdminCalendar(today.getFullYear(), today.getMonth());
             updateTime();
             updateStats();
             showSection('admin');
