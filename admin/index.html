@@ -477,6 +477,7 @@
                         <div class="mb-4">
                             <label for="calendarMonth" class="mr-2">月を選択:</label>
                             <input id="calendarMonth" type="month" class="medical-input px-2 py-1">
+                            <button id="jumpToday" class="ml-2 px-2 py-1 bg-blue-500 text-white rounded">今日</button>
                         </div>
                         <div id="adminCalendar"></div>
                     </div>
@@ -822,12 +823,13 @@
 
         function loadAppointmentTable() {
             const tbody = document.getElementById('appointmentTable');
-            const today = new Date().toDateString();
-            const todayAppointments = appointments
-                .filter(apt => new Date(apt.date).toDateString() === today)
-                .sort((a, b) => a.time.localeCompare(b.time));
+            const sorted = appointments.slice().sort((a, b) => {
+                const aDate = new Date(`${a.date} ${a.time}`);
+                const bDate = new Date(`${b.date} ${b.time}`);
+                return aDate - bDate;
+            });
 
-            tbody.innerHTML = todayAppointments.map(apt => {
+            tbody.innerHTML = sorted.map(apt => {
                 const statusText = {
                     'pending': '<span class="bg-gray-500 text-white px-2 py-1 rounded text-xs">承認待ち</span>',
                     'waiting': '<span class="bg-yellow-500 text-white px-2 py-1 rounded text-xs">待機中</span>',
@@ -948,10 +950,14 @@
                 grid.appendChild(document.createElement('div'));
             }
 
+           const todayStr = new Date().toISOString().split('T')[0];
            for (let day = 1; day <= lastDay.getDate(); day++) {
                const cell = document.createElement('div');
-                cell.className = 'border p-1 rounded cursor-pointer hover:bg-blue-50';
                 const dateStr = new Date(year, month, day).toISOString().split('T')[0];
+                cell.className = 'border p-1 rounded cursor-pointer hover:bg-blue-50';
+                if (dateStr === todayStr) {
+                    cell.classList.add('bg-yellow-100');
+                }
                 const count = appointments.filter(apt => apt.date === dateStr && apt.status !== 'cancelled').length;
                 const capacity = slotCapacities[dateStr] || 30;
                 cell.innerHTML = `<div class="font-bold">${day}</div><div class="text-blue-600">${count}/${capacity}</div>`;
@@ -1082,6 +1088,11 @@
             monthInput.addEventListener('change', function() {
                 const [y, m] = this.value.split('-').map(Number);
                 loadAdminCalendar(y, m - 1);
+            });
+            document.getElementById('jumpToday').addEventListener('click', function() {
+                const t = new Date();
+                monthInput.value = t.toISOString().slice(0,7);
+                loadAdminCalendar(t.getFullYear(), t.getMonth());
             });
             loadAdminCalendar(today.getFullYear(), today.getMonth());
             updateTime();

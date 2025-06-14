@@ -129,9 +129,9 @@
     </nav>
 
     <!-- Mobile Menu -->
-    <div id="mobileMenu" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden">
+    <div id="mobileMenu" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden" onclick="hideMobileMenu(event)">
         <div class="bg-white w-64 h-full p-6">
-            <button id="closeMobileMenu" class="float-right text-gray-600">
+            <button id="closeMobileMenu" class="float-right text-gray-600" onclick="hideMobileMenu(event)">
                 <i class="fas fa-times text-xl"></i>
             </button>
             <div class="mt-8 space-y-4">
@@ -527,12 +527,14 @@
         }
 
         // Mobile Menu
+        function hideMobileMenu(e) {
+            if (!e || e.target.id === 'mobileMenu' || e.target.id === 'closeMobileMenu') {
+                document.getElementById('mobileMenu').classList.add('hidden');
+            }
+        }
+
         document.getElementById('mobileMenuBtn').addEventListener('click', () => {
             document.getElementById('mobileMenu').classList.remove('hidden');
-        });
-
-        document.getElementById('closeMobileMenu').addEventListener('click', () => {
-            document.getElementById('mobileMenu').classList.add('hidden');
         });
 
         // Booking Form
