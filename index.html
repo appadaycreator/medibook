@@ -1004,7 +1004,9 @@
                     showSection(targetId);
                 } else {
                     const element = document.getElementById(targetId);
-                    if (element) {names.scrollIntoView({ behavior: 'smooth' });
+                    if (element) {
+                        element.scrollIntoView({ behavior: 'smooth' });
+                    }
                 }
                 
                 // Close mobile menu
