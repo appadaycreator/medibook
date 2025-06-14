@@ -786,7 +786,10 @@
                 isAdminLoggedIn = true;
                 document.getElementById('adminLogin').classList.add('hidden');
                 document.getElementById('adminDashboard').classList.remove('hidden');
-                document.getElementById('affiliateRecommendations').classList.add('hidden');
+                const affiliateElem = document.getElementById('affiliateRecommendations');
+                if (affiliateElem) {
+                    affiliateElem.classList.add('hidden');
+                }
                 loadAdminData();
             } else {
                 alert('ログイン情報が正しくありません。');
@@ -797,7 +800,10 @@
             isAdminLoggedIn = false;
             document.getElementById('adminLogin').classList.remove('hidden');
             document.getElementById('adminDashboard').classList.add('hidden');
-            document.getElementById('affiliateRecommendations').classList.remove('hidden');
+            const affiliateElem = document.getElementById('affiliateRecommendations');
+            if (affiliateElem) {
+                affiliateElem.classList.remove('hidden');
+            }
             document.getElementById('adminLoginForm').reset();
         }
 
