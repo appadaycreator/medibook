@@ -671,7 +671,7 @@
 
         function setMinDate() {
             const today = new Date();
-            today.setDate(today.getDate() + 1); // 明日から予約可能
+            // 当日から予約可能
             const minDate = today.toISOString().split('T')[0];
             document.getElementById('appointmentDate').min = minDate;
         }
