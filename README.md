@@ -69,10 +69,11 @@ medibook/
 
 ## データベース設定
 
-予約データは [Supabase](https://supabase.com/) の無料プランで保存できます。
-`index.html` と `admin/index.html` の `SUPABASE_URL` と `SUPABASE_ANON_KEY` を
-ご自身のプロジェクト情報に置き換えてください。無料枠の範囲内であれば
-月額0円（100円未満）で利用可能です。
+予約データは [Supabase](https://supabase.com/) の無料プランでクラウド保存できます。
+複数端末から同一データにアクセスする際は、`index.html` と `admin/index.html` 内
+の `SUPABASE_URL` と `SUPABASE_ANON_KEY` をご自身のプロジェクト情報に置き換えて
+ください。詳細なセットアップ手順は [SUPABASE_SETUP.md](SUPABASE_SETUP.md) にまと
+めています。無料枠の範囲内であれば月額0円で利用可能です。
 
 ## ライセンス
 
