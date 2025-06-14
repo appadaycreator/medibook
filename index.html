@@ -267,10 +267,19 @@
                                         <option value="16:45">16:45 - 17:00</option>
                                     </select>
                                 </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">受診区分 *</label>
+                                    <select id="visitType" required
+                                            class="w-full px-4 py-3 medical-input rounded-lg focus:outline-none">
+                                        <option value="">選択してください</option>
+                                        <option value="initial">初診</option>
+                                        <option value="followup">再診</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="mt-4">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">症状・相談内容</label>
-                                <textarea id="symptoms" rows="3" 
+                                <textarea id="symptoms" rows="3"
                                           class="w-full px-4 py-3 medical-input rounded-lg focus:outline-none"
                                           placeholder="症状や相談したい内容があれば記入してください（任意）"></textarea>
                             </div>
@@ -432,6 +441,7 @@
                                     <tr class="border-b border-gray-200">
                                         <th class="text-left py-3 px-4">予約ID</th>
                                         <th class="text-left py-3 px-4">患者名</th>
+                                        <th class="text-left py-3 px-4">区分</th>
                                         <th class="text-left py-3 px-4">日時</th>
                                         <th class="text-left py-3 px-4">電話番号</th>
                                         <th class="text-left py-3 px-4">状態</th>
@@ -714,13 +724,14 @@
                 age: document.getElementById('patientAge').value || '未記入',
                 date: document.getElementById('appointmentDate').value,
                 time: document.getElementById('appointmentTime').value,
+                visitType: document.getElementById('visitType').value,
                 symptoms: document.getElementById('symptoms').value || '特になし',
                 status: 'waiting',
                 createdAt: new Date().toISOString()
             };
 
             // Validation
-            if (!formData.name || !formData.phone || !formData.date || !formData.time) {
+            if (!formData.name || !formData.phone || !formData.date || !formData.time || !formData.visitType) {
                 alert('必須項目をすべて入力してください。');
                 return;
             }
@@ -787,6 +798,7 @@
                     <div><strong>患者名:</strong> ${currentAppointment.name}</div>
                     <div><strong>日時:</strong> ${currentAppointment.date} ${currentAppointment.time}</div>
                     <div><strong>電話番号:</strong> ${currentAppointment.phone}</div>
+                    <div><strong>区分:</strong> ${currentAppointment.visitType === 'followup' ? '再診' : '初診'}</div>
                     <div><strong>状態:</strong> <span class="${statusColor[currentAppointment.status]}">${statusText[currentAppointment.status]}</span></div>
                     <div><strong>症状:</strong> ${currentAppointment.symptoms}</div>
                 </div>
@@ -844,6 +856,7 @@
                     <tr class="border-b border-gray-100">
                         <td class="py-3 px-4 text-sm">${apt.id}</td>
                         <td class="py-3 px-4 text-sm">${apt.name}</td>
+                        <td class="py-3 px-4 text-sm">${apt.visitType === 'followup' ? '再診' : '初診'}</td>
                         <td class="py-3 px-4 text-sm">${apt.date} ${apt.time}</td>
                         <td class="py-3 px-4 text-sm">${apt.phone}</td>
                         <td class="py-3 px-4">${statusText[apt.status]}</td>
