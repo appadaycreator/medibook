@@ -357,6 +357,9 @@
                                 <button onclick="shareAppointment()" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg">
                                     <i class="fas fa-share mr-2"></i>シェア
                                 </button>
+                                <button onclick="modifyAppointment()" class="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-2 rounded-lg">
+                                    <i class="fas fa-edit mr-2"></i>変更
+                                </button>
                                 <button onclick="cancelAppointment()" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg">
                                     <i class="fas fa-times mr-2"></i>キャンセル
                                 </button>
@@ -684,6 +687,30 @@
 
         function closeQRModal() {
             document.getElementById('qrModal').classList.add('hidden');
+        }
+
+        function modifyAppointment() {
+            const newDate = prompt('新しい日付(YYYY-MM-DD)を入力してください', currentAppointment.date);
+            if (!newDate) return;
+            const newTime = prompt('新しい時間(HH:MM)を入力してください', currentAppointment.time);
+            if (!newTime) return;
+            const conflictExists = appointments.some(apt =>
+                apt.date === newDate &&
+                apt.time === newTime &&
+                apt.status !== 'cancelled' &&
+                apt.id !== currentAppointment.id
+            );
+            if (conflictExists) {
+                alert('選択された日時は既に予約済みです。別の時間をお選びください。');
+                return;
+            }
+            currentAppointment.date = newDate;
+            currentAppointment.time = newTime;
+            currentAppointment.status = 'pending';
+            saveData();
+            updateStats();
+            alert(`予約を変更しました。新しい日時: ${newDate} ${newTime}`);
+            document.getElementById('searchResults').classList.add('hidden');
         }
 
         function cancelAppointment() {
