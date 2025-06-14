@@ -306,7 +306,7 @@
                                     <strong>個人情報の取扱いについて同意します。</strong><br>
                                     入力いただいた個人情報は、診療予約管理のためのみに使用し、
                                     適切なセキュリティ対策のもと管理いたします。
-                                    詳細は<a href="#privacy" class="text-blue-600 underline">プライバシーポリシー</a>をご確認ください。
+                                    詳細は<a href="privacy.html" class="text-blue-600 underline">プライバシーポリシー</a>をご確認ください。
                                 </label>
                             </div>
                         </div>
@@ -406,7 +406,7 @@
                     </div>
 
                     <!-- Statistics -->
-                    <div class="grid md:grid-cols-4 gap-6 mb-8">
+                    <div class="grid md:grid-cols-5 gap-6 mb-8">
                         <div class="bg-white rounded-lg p-6 card-shadow">
                             <div class="flex items-center justify-between">
                                 <div>
@@ -414,6 +414,15 @@
                                     <p class="text-2xl font-bold text-blue-600" id="adminTodayCount">23</p>
                                 </div>
                                 <i class="fas fa-calendar-day text-3xl text-blue-500"></i>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg p-6 card-shadow">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600">承認待ち</p>
+                                    <p class="text-2xl font-bold text-gray-600" id="adminPendingCount">0</p>
+                                </div>
+                                <i class="fas fa-hourglass-half text-3xl text-gray-500"></i>
                             </div>
                         </div>
                         <div class="bg-white rounded-lg p-6 card-shadow">
@@ -516,74 +525,6 @@
                 </div>
             </div>
 
-            <!-- Privacy Policy -->
-            <div id="privacy" class="bg-white rounded-lg p-8 card-shadow mb-8">
-                <h3 class="text-xl font-bold text-gray-900 mb-4">プライバシーポリシー</h3>
-                <div class="text-sm text-gray-700 space-y-4">
-                    <p><strong>1. 個人情報の収集について</strong><br>
-                    当システムでは、診療予約サービスの提供に必要な範囲で、お名前、電話番号、年齢、症状等の個人情報を収集いたします。</p>
-                    
-                    <p><strong>2. 個人情報の利用目的</strong><br>
-                    収集した個人情報は、以下の目的でのみ使用いたします：<br>
-                    - 診療予約の管理および確認<br>
-                    - 予約変更・キャンセルの処理<br>
-                    - 診療に関する連絡</p>
-                    
-                    <p><strong>3. 個人情報の管理</strong><br>
-                    個人情報は適切なセキュリティ対策のもと厳重に管理し、法令に基づく場合を除き第三者に提供することはありません。</p>
-                    
-                    <p><strong>4. 個人情報の開示・訂正・削除</strong><br>
-                    患者様ご本人から個人情報の開示、訂正、削除の申し出があった場合は、適切に対応いたします。</p>
-                </div>
-            </div>
-
-            <!-- Terms of Service -->
-            <div id="terms" class="bg-white rounded-lg p-8 card-shadow mb-8">
-                <h3 class="text-xl font-bold text-gray-900 mb-4">免責事項・利用規約</h3>
-                <div class="text-sm text-gray-700 space-y-4">
-                    <p><strong>1. サービスの利用について</strong><br>
-                    本システムは予約管理を補助するものであり、医療行為そのものではありません。診療内容については医師の指示に従ってください。</p>
-                    
-                    <p><strong>2. システムの可用性</strong><br>
-                    システムメンテナンスやネットワーク障害等により、一時的にサービスをご利用いただけない場合があります。</p>
-                    
-                    <p><strong>3. 免責事項</strong><br>
-                    システムの利用により生じた損害について、当方は一切の責任を負いません。</p>
-                    
-                    <p><strong>4. 利用規約の変更</strong><br>
-                    利用規約は予告なく変更する場合があります。変更後の規約は本ページに掲載した時点で効力を生じます。</p>
-                </div>
-            </div>
-
-            <!-- Contact Form -->
-            <div id="contact" class="bg-white rounded-lg p-8 card-shadow mb-8">
-                <h3 class="text-xl font-bold text-gray-900 mb-4">お問い合わせ</h3>
-                <form id="contactForm" class="space-y-4">
-                    <div class="grid md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">お名前 *</label>
-                            <input type="text" required class="w-full px-4 py-3 medical-input rounded-lg focus:outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">メールアドレス *</label>
-                            <input type="email" required class="w-full px-4 py-3 medical-input rounded-lg focus:outline-none">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">件名 *</label>
-                        <input type="text" required class="w-full px-4 py-3 medical-input rounded-lg focus:outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">お問い合わせ内容 *</label>
-                        <textarea rows="4" required class="w-full px-4 py-3 medical-input rounded-lg focus:outline-none"></textarea>
-                    </div>
-                    <div class="text-center">
-                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors">
-                            <i class="fas fa-paper-plane mr-2"></i>送信
-                        </button>
-                    </div>
-                </form>
-            </div>
 
             <!-- Affiliate Recommendations -->
             <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-8 mb-8">
@@ -626,9 +567,9 @@
                 <div>
                     <h4 class="font-semibold mb-4">リンク</h4>
                     <div class="space-y-2 text-blue-200">
-                        <div><a href="#privacy" class="hover:text-white">プライバシーポリシー</a></div>
-                        <div><a href="#terms" class="hover:text-white">免責事項</a></div>
-                        <div><a href="#contact" class="hover:text-white">お問い合わせ</a></div>
+                        <div><a href="privacy.html" class="hover:text-white">プライバシーポリシー</a></div>
+                        <div><a href="terms.html" class="hover:text-white">免責事項</a></div>
+                        <div><a href="contact.html" class="hover:text-white">お問い合わせ</a></div>
                     </div>
                 </div>
                 <div>
@@ -707,6 +648,7 @@
             
             if (isAdminLoggedIn) {
                 document.getElementById('adminTodayCount').textContent = todayAppointments.length;
+                document.getElementById('adminPendingCount').textContent = todayAppointments.filter(apt => apt.status === 'pending').length;
                 document.getElementById('adminCompletedCount').textContent = todayAppointments.filter(apt => apt.status === 'completed').length;
                 document.getElementById('adminWaitingCount').textContent = todayAppointments.filter(apt => apt.status === 'waiting').length;
                 document.getElementById('adminCancelledCount').textContent = todayAppointments.filter(apt => apt.status === 'cancelled').length;
@@ -756,7 +698,7 @@
                 time: document.getElementById('appointmentTime').value,
                 visitType: document.getElementById('visitType').value,
                 symptoms: document.getElementById('symptoms').value || '特になし',
-                status: 'waiting',
+                status: 'pending',
                 createdAt: new Date().toISOString()
             };
 
@@ -783,7 +725,7 @@
             updateStats();
 
             // Show confirmation
-            alert(`予約が完了しました！\n\n予約ID: ${formData.id}\n日時: ${formData.date} ${formData.time}\n\n予約IDは必ずメモしてください。`);
+            alert(`予約が送信されました。管理者の承認をお待ちください。\n\n予約ID: ${formData.id}\n日時: ${formData.date} ${formData.time}\n\n予約IDは必ずメモしてください。`);
             
             // Reset form
             document.getElementById('bookingForm').reset();
@@ -811,12 +753,14 @@
             currentAppointment = results[0];
             
             const statusText = {
+                'pending': '承認待ち',
                 'waiting': '受付済み・待機中',
                 'completed': '診療完了',
                 'cancelled': 'キャンセル済み'
             };
 
             const statusColor = {
+                'pending': 'text-gray-600',
                 'waiting': 'text-yellow-600',
                 'completed': 'text-green-600',
                 'cancelled': 'text-red-600'
@@ -877,6 +821,7 @@
 
             tbody.innerHTML = todayAppointments.map(apt => {
                 const statusText = {
+                    'pending': '<span class="bg-gray-500 text-white px-2 py-1 rounded text-xs">承認待ち</span>',
                     'waiting': '<span class="bg-yellow-500 text-white px-2 py-1 rounded text-xs">待機中</span>',
                     'completed': '<span class="bg-green-500 text-white px-2 py-1 rounded text-xs">完了</span>',
                     'cancelled': '<span class="bg-red-500 text-white px-2 py-1 rounded text-xs">キャンセル</span>'
@@ -892,14 +837,20 @@
                         <td class="py-3 px-4">${statusText[apt.status]}</td>
                         <td class="py-3 px-4">
                             <div class="flex space-x-2">
+                                ${apt.status === 'pending' ? `
+                                    <button onclick="updateAppointmentStatus('${apt.id}', 'waiting')"
+                                            class="bg-blue-500 text-white px-2 py-1 rounded text-xs hover:bg-blue-600">
+                                        承認
+                                    </button>
+                                ` : ''}
                                 ${apt.status === 'waiting' ? `
-                                    <button onclick="updateAppointmentStatus('${apt.id}', 'completed')" 
+                                    <button onclick="updateAppointmentStatus('${apt.id}', 'completed')"
                                             class="bg-green-500 text-white px-2 py-1 rounded text-xs hover:bg-green-600">
                                         完了
                                     </button>
                                 ` : ''}
                                 ${apt.status !== 'cancelled' ? `
-                                    <button onclick="updateAppointmentStatus('${apt.id}', 'cancelled')" 
+                                    <button onclick="updateAppointmentStatus('${apt.id}', 'cancelled')"
                                             class="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600">
                                         キャンセル
                                     </button>
@@ -1030,12 +981,6 @@
             }
         }
 
-        // Contact Form
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('お問い合わせを受け付けました。後日ご連絡いたします。');
-            this.reset();
-        });
 
         // Navigation Links
         document.querySelectorAll('a[href^="#"]').forEach(link => {
