@@ -1,1 +1,60 @@
-# medibook
+# MediBook
+
+MediBookは、医療記録を簡単に管理できるPWA（Progressive Web App）アプリケーションです。
+
+## 機能
+
+- 医療記録の管理
+- オフライン対応
+- モバイルフレンドリーなUI
+- セキュアなデータ管理
+
+## 技術スタック
+
+- HTML5
+- CSS3
+- JavaScript
+- PWA（Service Worker）
+- レスポンシブデザイン
+
+## セットアップ
+
+1. リポジトリをクローン
+```bash
+git clone https://github.com/yourusername/medibook.git
+```
+
+2. ローカルサーバーで実行
+```bash
+# 例：Pythonの簡易サーバーを使用
+python -m http.server 8000
+```
+
+3. ブラウザでアクセス
+```
+http://localhost:8000
+```
+
+## プロジェクト構成
+
+```
+medibook/
+├── index.html          # メインシステムファイル
+├── manifest.json       # PWA設定
+├── sw.js              # Service Worker
+├── sitemap.xml        # SEO設定
+├── robots.txt         # クローラー設定
+├── privacy.html       # プライバシーポリシー
+├── terms.html         # 利用規約
+├── contact.html       # お問い合わせ
+├── icons/             # PWAアイコン
+└── images/            # 画像ファイル
+```
+
+## ライセンス
+
+MIT License
+
+## お問い合わせ
+
+お問い合わせは[お問い合わせフォーム](contact.html)からお願いします。
