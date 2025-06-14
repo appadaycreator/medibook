@@ -54,9 +54,14 @@ medibook/
 ├── privacy.html       # プライバシーポリシー
 ├── terms.html         # 利用規約
 ├── contact.html       # お問い合わせ
+├── usage.html         # 使い方ページ
 ├── icons/             # PWAアイコン
 └── images/            # 画像ファイル
 ```
+
+## 使い方
+
+基本的な操作方法については[使い方ページ](usage.html)を参照してください。
 
 ## ライセンス
 
