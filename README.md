@@ -10,6 +10,7 @@ MediBookは、医療記録を簡単に管理できるPWA（Progressive Web App�
 - オフライン対応
 - モバイルフレンドリーなUI
 - セキュアなデータ管理
+- Supabaseを利用した予約情報のクラウド保存（無料プランで運用可能）
 
 ## 技術スタック
 
@@ -65,6 +66,13 @@ medibook/
 ## 使い方
 
 基本的な操作方法については[使い方ページ](usage.html)を参照してください。
+
+## データベース設定
+
+予約データは [Supabase](https://supabase.com/) の無料プランで保存できます。
+`index.html` と `admin/index.html` の `SUPABASE_URL` と `SUPABASE_ANON_KEY` を
+ご自身のプロジェクト情報に置き換えてください。無料枠の範囲内であれば
+月額0円（100円未満）で利用可能です。
 
 ## ライセンス
 
