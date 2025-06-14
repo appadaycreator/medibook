@@ -477,6 +477,12 @@
                         </div>
                     </div>
 
+                    <!-- Appointment Calendar -->
+                    <div class="bg-white rounded-lg p-6 card-shadow mb-8">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">予約枠カレンダー</h3>
+                        <div id="adminCalendar"></div>
+                    </div>
+
                     <!-- Analytics Chart -->
                     <div class="bg-white rounded-lg p-6 card-shadow">
                         <h3 class="text-xl font-semibold text-gray-800 mb-4">予約推移グラフ</h3>
@@ -809,11 +815,12 @@
             document.getElementById('adminLoginForm').reset();
         }
 
-        function loadAdminData() {
-            updateStats();
-            loadAppointmentTable();
-            loadAnalyticsChart();
-        }
+       function loadAdminData() {
+           updateStats();
+           loadAppointmentTable();
+           loadAnalyticsChart();
+            loadAdminCalendar();
+       }
 
         function loadAppointmentTable() {
             const tbody = document.getElementById('appointmentTable');
@@ -916,6 +923,43 @@
                     }
                 }
             });
+        }
+
+        function loadAdminCalendar() {
+            const calendar = document.getElementById('adminCalendar');
+            calendar.innerHTML = '';
+
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth();
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+
+            const dayNames = ['日', '月', '火', '水', '木', '金', '土'];
+            const grid = document.createElement('div');
+            grid.className = 'grid grid-cols-7 gap-2 text-center text-sm';
+
+            dayNames.forEach(d => {
+                const cell = document.createElement('div');
+                cell.className = 'font-semibold';
+                cell.textContent = d;
+                grid.appendChild(cell);
+            });
+
+            for (let i = 0; i < firstDay.getDay(); i++) {
+                grid.appendChild(document.createElement('div'));
+            }
+
+            for (let day = 1; day <= lastDay.getDate(); day++) {
+                const cell = document.createElement('div');
+                cell.className = 'border p-1 rounded';
+                const dateStr = new Date(year, month, day).toISOString().split('T')[0];
+                const count = appointments.filter(apt => apt.date === dateStr && apt.status !== 'cancelled').length;
+                cell.innerHTML = `<div class="font-bold">${day}</div><div class="text-blue-600">${count}件</div>`;
+                grid.appendChild(cell);
+            }
+
+            calendar.appendChild(grid);
         }
 
         // Share Functions
