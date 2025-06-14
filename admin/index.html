@@ -96,6 +96,7 @@
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="bg-gray-50 font-sans">
     <!-- Google Tag Manager (noscript) -->
@@ -571,8 +572,12 @@
     </footer>
 
     <script>
+        const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+        const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
+        const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
         // Data Storage
-        let appointments = JSON.parse(localStorage.getItem('medibook_appointments') || '[]');
+        let appointments = [];
         let slotCapacities = JSON.parse(localStorage.getItem('medibook_slot_capacities') || '{}');
         let currentAppointment = null;
         let isAdminLoggedIn = false;
@@ -597,11 +602,22 @@
         // Utility Functions
         function generateId() {
             const date = new Date();
-            const dateStr = date.getFullYear().toString() + 
-                           (date.getMonth() + 1).toString().padStart(2, '0') + 
+            const dateStr = date.getFullYear().toString() +
+                           (date.getMonth() + 1).toString().padStart(2, '0') +
                            date.getDate().toString().padStart(2, '0');
             const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
             return `MB${dateStr}${random}`;
+        }
+
+        async function fetchAppointments() {
+            const { data, error } = await sb.from('appointments').select('*');
+            if (!error) {
+                appointments = data || [];
+                saveData();
+            } else {
+                console.error(error);
+                appointments = JSON.parse(localStorage.getItem('medibook_appointments') || '[]');
+            }
         }
 
         function saveData() {
@@ -717,6 +733,9 @@
             appointments.push(formData);
             saveData();
             updateStats();
+            sb.from('appointments').insert([formData]).then(({ error }) => {
+                if (error) console.error(error);
+            });
 
             // Show confirmation
             alert(`予約が送信されました。管理者の承認をお待ちください。\n\n予約ID: ${formData.id}\n日時: ${formData.date} ${formData.time}\n\n予約IDは必ずメモしてください。`);
@@ -776,7 +795,7 @@
         });
 
         // Admin Functions
-        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+        document.getElementById('adminLoginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const id = document.getElementById('adminId').value;
@@ -785,13 +804,14 @@
             // Simple authentication (in production, use proper authentication)
             if (id === 'admin' && password === 'password') {
                 isAdminLoggedIn = true;
+                localStorage.setItem('medibook_admin_login', 'true');
                 document.getElementById('adminLogin').classList.add('hidden');
                 document.getElementById('adminDashboard').classList.remove('hidden');
                 const affiliateElem = document.getElementById('affiliateRecommendations');
                 if (affiliateElem) {
                     affiliateElem.classList.add('hidden');
                 }
-                loadAdminData();
+                await loadAdminData();
             } else {
                 alert('ログイン情報が正しくありません。');
             }
@@ -799,6 +819,7 @@
 
         function adminLogout() {
             isAdminLoggedIn = false;
+            localStorage.removeItem('medibook_admin_login');
             document.getElementById('adminLogin').classList.remove('hidden');
             document.getElementById('adminDashboard').classList.add('hidden');
             const affiliateElem = document.getElementById('affiliateRecommendations');
@@ -808,7 +829,8 @@
             document.getElementById('adminLoginForm').reset();
         }
 
-      function loadAdminData() {
+      async function loadAdminData() {
+          await fetchAppointments();
           updateStats();
           loadAppointmentTable();
           loadAnalyticsChart();
@@ -877,6 +899,9 @@
             if (appointment) {
                 appointment.status = newStatus;
                 saveData();
+                sb.from('appointments').update({status: newStatus}).eq('id', appointmentId).then(({ error }) => {
+                    if (error) console.error(error);
+                });
                 loadAdminData();
             }
         }
@@ -1077,10 +1102,16 @@
         }
 
         // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', async function() {
             const savedSize = parseInt(localStorage.getItem('medibook_fontsize'));
             if (savedSize) {
                 setBaseFontSize(savedSize);
+            }
+            if (localStorage.getItem('medibook_admin_login') === 'true') {
+                isAdminLoggedIn = true;
+                document.getElementById('adminLogin').classList.add('hidden');
+                document.getElementById('adminDashboard').classList.remove('hidden');
+                await loadAdminData();
             }
             const monthInput = document.getElementById('calendarMonth');
             const today = new Date();
@@ -1099,7 +1130,7 @@
             updateStats();
             showSection('admin');
             setInterval(updateTime, 60000); // Update time every minute
-            setInterval(updateStats, 300000); // Update stats every 5 minutes
+            setInterval(async () => { await loadAdminData(); }, 300000); // every 5 minutes
         });
     </script>
 </body>
