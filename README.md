@@ -2,6 +2,8 @@
 
 MediBookは、医療記録を簡単に管理できるPWA（Progressive Web App）アプリケーションです。
 
+ユーザー向け画面は`index.html`、管理者向け画面は`admin/index.html`からアクセスできます。
+
 ## 機能
 
 - 医療記録の管理
@@ -47,6 +49,7 @@ http://localhost:8000
 ```
 medibook/
 ├── index.html          # メインシステムファイル
+├── admin/              # 管理者画面
 ├── manifest.json       # PWA設定
 ├── sw.js              # Service Worker
 ├── sitemap.xml        # SEO設定

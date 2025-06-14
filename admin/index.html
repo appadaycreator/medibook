@@ -112,10 +112,7 @@
                     <span class="text-xl font-bold">MediBook</span>
                 </div>
                 <div class="hidden md:flex space-x-6">
-                    <a href="#home" class="hover:text-blue-200 transition-colors">ホーム</a>
-                    <a href="#booking" class="hover:text-blue-200 transition-colors">予約</a>
-                    <a href="#status" class="hover:text-blue-200 transition-colors">状況確認</a>
-                    <a href="admin/" class="hover:text-blue-200 transition-colors">管理者</a>
+                    <a href="../index.html" class="hover:text-blue-200 transition-colors">ユーザー画面</a>
                 </div>
                 <div class="hidden md:flex space-x-2 items-center">
                     <button onclick="decreaseFontSize()" class="px-2 py-1 bg-blue-500 rounded">A-</button>
@@ -135,10 +132,7 @@
                 <i class="fas fa-times text-xl"></i>
             </button>
             <div class="mt-8 space-y-4">
-                <a href="#home" class="block text-gray-800 hover:text-blue-600">ホーム</a>
-                <a href="#booking" class="block text-gray-800 hover:text-blue-600">予約</a>
-                <a href="#status" class="block text-gray-800 hover:text-blue-600">状況確認</a>
-                <a href="admin/" class="block text-gray-800 hover:text-blue-600">管理者</a>
+                <a href="../index.html" class="block text-gray-800 hover:text-blue-600">ユーザー画面</a>
                 <div class="flex space-x-2 mt-4">
                     <button onclick="decreaseFontSize()" class="px-2 py-1 bg-blue-500 text-white rounded">A-</button>
                     <button onclick="increaseFontSize()" class="px-2 py-1 bg-blue-500 text-white rounded">A+</button>
@@ -151,7 +145,7 @@
     <main class="container mx-auto px-4 py-8">
         
         <!-- Home Section -->
-        <section id="home" class="mb-12">
+        <section id="home" class="mb-12 hidden">
             <div class="text-center mb-12">
                 <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
                     MediBook
@@ -367,6 +361,136 @@
             </div>
         </section>
 
+        <!-- Admin Section -->
+        <section id="admin" class="mb-12">
+            <div class="max-w-6xl mx-auto">
+                <!-- Admin Login -->
+                <div id="adminLogin" class="max-w-md mx-auto bg-white rounded-lg p-8 card-shadow">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">
+                        <i class="fas fa-shield-alt text-red-600 mr-3"></i>管理者ログイン
+                    </h2>
+                    <form id="adminLoginForm" class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">管理者ID</label>
+                            <input type="text" id="adminId" required 
+                                   class="w-full px-4 py-3 medical-input rounded-lg focus:outline-none"
+                                   placeholder="admin">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">パスワード</label>
+                            <input type="password" id="adminPassword" required 
+                                   class="w-full px-4 py-3 medical-input rounded-lg focus:outline-none"
+                                   placeholder="password">
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors">
+                                <i class="fas fa-sign-in-alt mr-2"></i>ログイン
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Admin Dashboard -->
+                <div id="adminDashboard" class="hidden">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="text-2xl font-bold text-gray-900">管理者ダッシュボード</h2>
+                        <button onclick="adminLogout()" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg">
+                            <i class="fas fa-sign-out-alt mr-2"></i>ログアウト
+                        </button>
+                    </div>
+
+                    <!-- Statistics -->
+                    <div class="grid md:grid-cols-5 gap-6 mb-8">
+                        <div class="bg-white rounded-lg p-6 card-shadow">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600">今日の予約</p>
+                                    <p class="text-2xl font-bold text-blue-600" id="adminTodayCount">23</p>
+                                </div>
+                                <i class="fas fa-calendar-day text-3xl text-blue-500"></i>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg p-6 card-shadow">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600">承認待ち</p>
+                                    <p class="text-2xl font-bold text-gray-600" id="adminPendingCount">0</p>
+                                </div>
+                                <i class="fas fa-hourglass-half text-3xl text-gray-500"></i>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg p-6 card-shadow">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600">完了済み</p>
+                                    <p class="text-2xl font-bold text-green-600" id="adminCompletedCount">16</p>
+                                </div>
+                                <i class="fas fa-check-circle text-3xl text-green-500"></i>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg p-6 card-shadow">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600">待機中</p>
+                                    <p class="text-2xl font-bold text-yellow-600" id="adminWaitingCount">5</p>
+                                </div>
+                                <i class="fas fa-clock text-3xl text-yellow-500"></i>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg p-6 card-shadow">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600">キャンセル</p>
+                                    <p class="text-2xl font-bold text-red-600" id="adminCancelledCount">2</p>
+                                </div>
+                                <i class="fas fa-times-circle text-3xl text-red-500"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Appointment Management -->
+                    <div class="bg-white rounded-lg p-6 card-shadow mb-8">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">予約管理</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b border-gray-200">
+                                        <th class="text-left py-3 px-4">予約ID</th>
+                                        <th class="text-left py-3 px-4">患者名</th>
+                                        <th class="text-left py-3 px-4">区分</th>
+                                        <th class="text-left py-3 px-4">日時</th>
+                                        <th class="text-left py-3 px-4">電話番号</th>
+                                        <th class="text-left py-3 px-4">状態</th>
+                                        <th class="text-left py-3 px-4">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="appointmentTable">
+                                    <!-- Table content will be populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Appointment Calendar -->
+                    <div class="bg-white rounded-lg p-6 card-shadow mb-8">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">予約枠カレンダー</h3>
+                        <div class="mb-4">
+                            <label for="calendarMonth" class="mr-2">月を選択:</label>
+                            <input id="calendarMonth" type="month" class="medical-input px-2 py-1">
+                        </div>
+                        <div id="adminCalendar"></div>
+                    </div>
+
+                    <!-- Analytics Chart -->
+                    <div class="bg-white rounded-lg p-6 card-shadow">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">予約推移グラフ</h3>
+                        <div style="height: 400px;">
+                            <canvas id="analyticsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <!-- Footer Sections -->
         <section id="footer-info" class="mt-16">
@@ -449,6 +573,7 @@
         // Data Storage
         let appointments = JSON.parse(localStorage.getItem('medibook_appointments') || '[]');
         let currentAppointment = null;
+        let isAdminLoggedIn = false;
         let baseFontSize = parseInt(getComputedStyle(document.documentElement).fontSize);
 
         function setBaseFontSize(size) {
@@ -500,12 +625,18 @@
             document.getElementById('currentWaitTime').textContent = `約${calculateWaitTime()}分`;
             document.getElementById('availableSlots').textContent = Math.max(0, 30 - todayAppointments.length);
             
-            /* 管理者向け機能は別ページで提供 */
+            if (isAdminLoggedIn) {
+                document.getElementById('adminTodayCount').textContent = todayAppointments.length;
+                document.getElementById('adminPendingCount').textContent = todayAppointments.filter(apt => apt.status === 'pending').length;
+                document.getElementById('adminCompletedCount').textContent = todayAppointments.filter(apt => apt.status === 'completed').length;
+                document.getElementById('adminWaitingCount').textContent = todayAppointments.filter(apt => apt.status === 'waiting').length;
+                document.getElementById('adminCancelledCount').textContent = todayAppointments.filter(apt => apt.status === 'cancelled').length;
+            }
         }
 
         // Navigation
         function showSection(sectionId) {
-            const sections = ['home', 'booking', 'status'];
+            const sections = ['home', 'booking', 'status', 'admin'];
             sections.forEach(section => {
                 document.getElementById(section).classList.add('hidden');
             });
@@ -629,6 +760,185 @@
             resultsDiv.classList.remove('hidden');
         });
 
+        // Admin Functions
+        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('adminId').value;
+            const password = document.getElementById('adminPassword').value;
+            
+            // Simple authentication (in production, use proper authentication)
+            if (id === 'admin' && password === 'password') {
+                isAdminLoggedIn = true;
+                document.getElementById('adminLogin').classList.add('hidden');
+                document.getElementById('adminDashboard').classList.remove('hidden');
+                document.getElementById('affiliateRecommendations').classList.add('hidden');
+                loadAdminData();
+            } else {
+                alert('ログイン情報が正しくありません。');
+            }
+        });
+
+        function adminLogout() {
+            isAdminLoggedIn = false;
+            document.getElementById('adminLogin').classList.remove('hidden');
+            document.getElementById('adminDashboard').classList.add('hidden');
+            document.getElementById('affiliateRecommendations').classList.remove('hidden');
+            document.getElementById('adminLoginForm').reset();
+        }
+
+      function loadAdminData() {
+          updateStats();
+          loadAppointmentTable();
+          loadAnalyticsChart();
+           const val = document.getElementById('calendarMonth').value;
+           if (val) {
+               const [y, m] = val.split('-').map(Number);
+               loadAdminCalendar(y, m - 1);
+           } else {
+               loadAdminCalendar();
+           }
+      }
+
+        function loadAppointmentTable() {
+            const tbody = document.getElementById('appointmentTable');
+            const today = new Date().toDateString();
+            const todayAppointments = appointments
+                .filter(apt => new Date(apt.date).toDateString() === today)
+                .sort((a, b) => a.time.localeCompare(b.time));
+
+            tbody.innerHTML = todayAppointments.map(apt => {
+                const statusText = {
+                    'pending': '<span class="bg-gray-500 text-white px-2 py-1 rounded text-xs">承認待ち</span>',
+                    'waiting': '<span class="bg-yellow-500 text-white px-2 py-1 rounded text-xs">待機中</span>',
+                    'completed': '<span class="bg-green-500 text-white px-2 py-1 rounded text-xs">完了</span>',
+                    'cancelled': '<span class="bg-red-500 text-white px-2 py-1 rounded text-xs">キャンセル</span>'
+                };
+
+                return `
+                    <tr class="border-b border-gray-100">
+                        <td class="py-3 px-4 text-sm">${apt.id}</td>
+                        <td class="py-3 px-4 text-sm">${apt.name}</td>
+                        <td class="py-3 px-4 text-sm">${apt.visitType === 'followup' ? '再診' : '初診'}</td>
+                        <td class="py-3 px-4 text-sm">${apt.date} ${apt.time}</td>
+                        <td class="py-3 px-4 text-sm">${apt.phone}</td>
+                        <td class="py-3 px-4">${statusText[apt.status]}</td>
+                        <td class="py-3 px-4">
+                            <div class="flex space-x-2">
+                                ${apt.status === 'pending' ? `
+                                    <button onclick="updateAppointmentStatus('${apt.id}', 'waiting')"
+                                            class="bg-blue-500 text-white px-2 py-1 rounded text-xs hover:bg-blue-600">
+                                        承認
+                                    </button>
+                                ` : ''}
+                                ${apt.status === 'waiting' ? `
+                                    <button onclick="updateAppointmentStatus('${apt.id}', 'completed')"
+                                            class="bg-green-500 text-white px-2 py-1 rounded text-xs hover:bg-green-600">
+                                        完了
+                                    </button>
+                                ` : ''}
+                                ${apt.status !== 'cancelled' ? `
+                                    <button onclick="updateAppointmentStatus('${apt.id}', 'cancelled')"
+                                            class="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600">
+                                        キャンセル
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function updateAppointmentStatus(appointmentId, newStatus) {
+            const appointment = appointments.find(apt => apt.id === appointmentId);
+            if (appointment) {
+                appointment.status = newStatus;
+                saveData();
+                loadAdminData();
+            }
+        }
+
+        function loadAnalyticsChart() {
+            const ctx = document.getElementById('analyticsChart').getContext('2d');
+            
+            // Generate last 7 days data
+            const last7Days = [];
+            const appointmentCounts = [];
+            
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                const dateStr = date.toDateString();
+                
+                last7Days.push(date.toLocaleDateString('ja-JP', { month: 'short', day: 'numeric' }));
+                appointmentCounts.push(appointments.filter(apt => new Date(apt.date).toDateString() === dateStr).length);
+            }
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: last7Days,
+                    datasets: [{
+                        label: '予約数',
+                        data: appointmentCounts,
+                        borderColor: '#3373dc',
+                        backgroundColor: 'rgba(51, 115, 220, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function loadAdminCalendar(year, month) {
+            const calendar = document.getElementById('adminCalendar');
+            calendar.innerHTML = '';
+
+            const now = new Date();
+            year = year !== undefined ? year : now.getFullYear();
+            month = month !== undefined ? month : now.getMonth();
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+
+            const dayNames = ['日', '月', '火', '水', '木', '金', '土'];
+            const grid = document.createElement('div');
+            grid.className = 'grid grid-cols-7 gap-2 text-center text-sm';
+
+            dayNames.forEach(d => {
+                const cell = document.createElement('div');
+                cell.className = 'font-semibold';
+                cell.textContent = d;
+                grid.appendChild(cell);
+            });
+
+            for (let i = 0; i < firstDay.getDay(); i++) {
+                grid.appendChild(document.createElement('div'));
+            }
+
+            for (let day = 1; day <= lastDay.getDate(); day++) {
+                const cell = document.createElement('div');
+                cell.className = 'border p-1 rounded';
+                const dateStr = new Date(year, month, day).toISOString().split('T')[0];
+                const count = appointments.filter(apt => apt.date === dateStr && apt.status !== 'cancelled').length;
+                cell.innerHTML = `<div class="font-bold">${day}</div><div class="text-blue-600">${count}件</div>`;
+                grid.appendChild(cell);
+            }
+
+            calendar.appendChild(grid);
+        }
 
         // Share Functions
         function shareAppointment() {
@@ -703,7 +1013,7 @@
                 e.preventDefault();
                 const targetId = this.getAttribute('href').substring(1);
                 
-                if (['home', 'booking', 'status'].includes(targetId)) {
+                if (['home', 'booking', 'status', 'admin'].includes(targetId)) {
                     showSection(targetId);
                 } else {
                     const element = document.getElementById(targetId);
@@ -730,9 +1040,16 @@
             if (savedSize) {
                 setBaseFontSize(savedSize);
             }
-            // 管理者ページでのみ使用する機能は除外
+            const monthInput = document.getElementById('calendarMonth');
+            const today = new Date();
+            monthInput.value = today.toISOString().slice(0,7);
+            monthInput.addEventListener('change', function() {
+                const [y, m] = this.value.split('-').map(Number);
+                loadAdminCalendar(y, m - 1);
+            });
             updateTime();
             updateStats();
+            showSection('admin');
             setInterval(updateTime, 60000); // Update time every minute
             setInterval(updateStats, 300000); // Update stats every 5 minutes
         });
