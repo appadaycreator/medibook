@@ -3,7 +3,7 @@
     "short_name": "MediBook",
     "description": "中小クリニック向けWeb予約管理システム",
     "version": "1.0.0",
-    "start_url": "/",
+    "start_url": "./",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#2563eb",
@@ -52,7 +52,7 @@
     ],
     "categories": ["medical", "healthcare", "business"],
     "lang": "ja",
-    "scope": "/",
+    "scope": "./",
     "prefer_related_applications": false
   }
   

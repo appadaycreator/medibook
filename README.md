@@ -74,6 +74,18 @@ medibook/
 `FUNCTION_URL` 定数に、ご自身のプロジェクトでデプロイした Edge Function の URL を設定してください。例えば `https://<your-project-ref>.functions.supabase.co/appointments` のようになります。関数のサンプル実装は `supabase/functions/appointments/index.ts` に含まれています。
 詳細なセットアップ手順は [SUPABASE_SETUP.md](SUPABASE_SETUP.md) を参照してください。無料枠の範囲内であれば月額0円で利用可能です。
 
+## GitHub Pages へのデプロイ
+
+GitHub の静的ホスティング機能を使えば、本リポジトリの内容をそのまま公開できます。
+主な流れは以下の通りです。
+
+1. このリポジトリを GitHub 上にプッシュします。
+2. リポジトリ設定の **Pages** で公開ブランチを `main`、フォルダを `/` に設定します。
+3. `index.html` と `admin/index.html` にある `FUNCTION_URL` を、Supabase でデプロイ
+   した Edge Function の URL に書き換えます。
+
+デプロイ後は `https://<your-user>.github.io/<repository>/` でアプリが利用できます。
+
 ## ライセンス
 
 MIT License
