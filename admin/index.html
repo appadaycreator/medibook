@@ -604,7 +604,7 @@
                 appointments = await res.json() || [];
                 saveData();
             } catch (error) {
-                console.error(error);
+                console.warn('予約データの取得に失敗しました。ローカル保存データを使用します。');
                 appointments = JSON.parse(localStorage.getItem('medibook_appointments') || '[]');
             }
         }
@@ -727,7 +727,7 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
             }).then(res => { if (!res.ok) return res.text().then(t => { throw new Error(t); }); })
-              .catch(err => console.error(err));
+              .catch(err => console.warn('予約データの送信に失敗しました。', err));
 
             // Show confirmation
             alert(`予約が送信されました。管理者の承認をお待ちください。\n\n予約ID: ${formData.id}\n日時: ${formData.date} ${formData.time}\n\n予約IDは必ずメモしてください。`);
@@ -896,7 +896,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ id: appointmentId, status: newStatus })
                 }).then(res => { if (!res.ok) return res.text().then(t => { throw new Error(t); }); })
-                  .catch(err => console.error(err));
+                  .catch(err => console.warn('予約ステータスの更新に失敗しました。', err));
                 loadAdminData();
             }
         }
@@ -1048,7 +1048,7 @@
                     light: '#FFFFFF'
                 }
             }, function (error) {
-                if (error) console.error(error);
+                if (error) console.warn('QRコードの生成に失敗しました。', error);
             });
 
             document.getElementById('qrModal').classList.remove('hidden');
