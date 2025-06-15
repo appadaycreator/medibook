@@ -71,7 +71,7 @@ medibook/
 
 予約データは [Supabase](https://supabase.com/) の無料プランでクラウド保存できます。
 静的ホスティングから直接DBへ接続しないよう、Supabase Edge Functions を利用する構成に変更しました。
-`FUNCTION_URL` 定数に、ご自身のプロジェクトでデプロイした Edge Function の URL を設定してください。関数のサンプル実装は `supabase/functions/appointments/index.ts` に含まれています。
+`FUNCTION_URL` 定数に、ご自身のプロジェクトでデプロイした Edge Function の URL を設定してください。例えば `https://<your-project-ref>.functions.supabase.co/appointments` のようになります。関数のサンプル実装は `supabase/functions/appointments/index.ts` に含まれています。
 詳細なセットアップ手順は [SUPABASE_SETUP.md](SUPABASE_SETUP.md) を参照してください。無料枠の範囲内であれば月額0円で利用可能です。
 
 ## ライセンス
