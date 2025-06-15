@@ -96,7 +96,7 @@
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
         }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Supabase Edge Functions を利用するためライブラリは不要 -->
 </head>
 <body class="bg-gray-50 font-sans">
     <!-- Google Tag Manager (noscript) -->
@@ -572,9 +572,8 @@
     </footer>
 
     <script>
-        const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-        const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
-        const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        // Supabase Edge Function のエンドポイントURL
+        const FUNCTION_URL = 'YOUR_FUNCTION_URL';
 
         // Data Storage
         let appointments = [];
@@ -610,11 +609,12 @@
         }
 
         async function fetchAppointments() {
-            const { data, error } = await sb.from('appointments').select('*');
-            if (!error) {
-                appointments = data || [];
+            try {
+                const res = await fetch(FUNCTION_URL);
+                if (!res.ok) throw new Error(await res.text());
+                appointments = await res.json() || [];
                 saveData();
-            } else {
+            } catch (error) {
                 console.error(error);
                 appointments = JSON.parse(localStorage.getItem('medibook_appointments') || '[]');
             }
@@ -733,9 +733,12 @@
             appointments.push(formData);
             saveData();
             updateStats();
-            sb.from('appointments').insert([formData]).then(({ error }) => {
-                if (error) console.error(error);
-            });
+            fetch(FUNCTION_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            }).then(res => { if (!res.ok) return res.text().then(t => { throw new Error(t); }); })
+              .catch(err => console.error(err));
 
             // Show confirmation
             alert(`予約が送信されました。管理者の承認をお待ちください。\n\n予約ID: ${formData.id}\n日時: ${formData.date} ${formData.time}\n\n予約IDは必ずメモしてください。`);
@@ -899,9 +902,12 @@
             if (appointment) {
                 appointment.status = newStatus;
                 saveData();
-                sb.from('appointments').update({status: newStatus}).eq('id', appointmentId).then(({ error }) => {
-                    if (error) console.error(error);
-                });
+                fetch(FUNCTION_URL, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: appointmentId, status: newStatus })
+                }).then(res => { if (!res.ok) return res.text().then(t => { throw new Error(t); }); })
+                  .catch(err => console.error(err));
                 loadAdminData();
             }
         }
